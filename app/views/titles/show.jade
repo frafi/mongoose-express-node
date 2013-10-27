@@ -1,9 +1,19 @@
 extends ../layouts/default
 
 block main
-  h1= title_item.TitleName
-
-block content
+  h1= title.TitleName
+  
+  block content
   .row
-    .span9
-      p=title_item.ReleaseYear
+    .column
+      b Title ID
+    .column
+      p=title.TitleId
+    .column
+      b Release Year
+    .column
+      p=title.ReleaseYear
+    .column
+      b Type
+    .column
+      p=title.TitleType

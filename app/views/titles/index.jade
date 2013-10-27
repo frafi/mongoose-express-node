@@ -8,7 +8,7 @@ block content
     - each title in titles
       .title
         h3
-          a(href='/titles/'+title._id, title=title.TitleName) #{title.TitleName}
+          a(href='/titles/'+title._id) #{title.TitleName}
 
     - if (pages > 1)
       .pagination

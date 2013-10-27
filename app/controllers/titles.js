@@ -16,8 +16,14 @@ exports.load = function(req, res, next, id){
   //var User = mongoose.model('Title')
 
   Title.load(id, function (err, title) {
-    if (err) return next(err)
-    if (!title) return next(new Error('not found'))
+    if (err) {
+    	console.log("error in load")
+    	return next(err)
+    }
+    if (!title) {
+    	console.log("error in title search")
+    	return next(new Error('not found item'))
+    }
     req.title = title
     next()
   })
@@ -39,7 +45,7 @@ exports.index = function(req, res){
     if (err) return res.render('500')
     Title.count().exec(function (err, count) {
       res.render('titles/index', {
-        title: 'Titles',
+        title: 'Movie Titles',
         titles: titles,
         page: page + 1,
         pages: Math.ceil(count / perPage)
@@ -54,8 +60,8 @@ exports.index = function(req, res){
 
 exports.show = function(req, res){
   res.render('titles/show', {
-    title: req.title.TitleName,
-    title_item: req.title
+    title: req.title
+    //,title: req.title
   })
 }
 

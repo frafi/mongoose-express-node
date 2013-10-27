@@ -7,7 +7,7 @@ var mongoose = require('mongoose')
   , env = process.env.NODE_ENV || 'development'
   , config = require('../../config/config')[env]
   , Schema = mongoose.Schema
-
+ 
 /**
  * Getters
  */
@@ -29,8 +29,12 @@ var setTags = function (tags) {
  */
 
 var TitleSchema = new Schema({
+  TitleId: {type : Number },
   TitleName: {type : String, default : '', trim : true},
-  TitleType: {type : String, default : '', trim : true}
+  TitleType: {type : String, default : '', trim : true},
+  TitleTypeCode: {type : String, default : '', trim : true},
+  ReleaseYear: {type : Number},
+  TitleTypeCode: {type : String, default : '', trim : true}
 })
 
 /**
@@ -54,10 +58,9 @@ TitleSchema.statics = {
    * @api private
    */
 
-  load: function (id, cb) {
-    this.findOne({ _id : id })
-      //.populate('user', 'name email username')
-      //.populate('comments.user')
+  load: function (tid, cb) {
+  	console.log("Search id is "+ tid)
+  	this.findOne({ "_id" : "\""+tid+"\"" })
       .exec(cb)
   },
 
@@ -73,8 +76,7 @@ TitleSchema.statics = {
     var criteria = options.criteria || {}
 
     this.find(criteria)
-      //.populate('user', 'name username')
-      //.sort({'createdAt': -1}) // sort by date
+      .sort({'createdAt': -1}) // sort by date
       .limit(options.perPage)
       .skip(options.perPage * options.page)
       .exec(cb)
