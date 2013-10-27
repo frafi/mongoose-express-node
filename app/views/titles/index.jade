@@ -8,25 +8,7 @@ block content
     - each title in titles
       .title
         h3
-          a(href='/titles/'+title._id, title=title.title) #{title.title}
-        p= title.body
-
-        .meta.muted
-          span= formatDate(title.createdAt)
-          &nbsp; - &nbsp;
-          - if (title.user)
-            span Author &nbsp;
-
-            - var name = title.user.name ? title.user.name : title.user.username
-
-            a(href="/users/"+title.user._id)= name
-          &nbsp; - &nbsp;
-          - if (title.tags)
-            - each tag in title.tags.split(',')
-              &nbsp;
-              a.tag(href="/tags/"+tag)
-                i.icon-tags
-                |  #{tag}
+          a(href='/titles/'+title._id, title=title.TitleName) #{title.TitleName}
 
     - if (pages > 1)
       .pagination
@@ -34,4 +16,3 @@ block content
           != createPagination(pages, page)
   - else
     p.muted No titles.&nbsp;
-      a(href="/titles/new") create one

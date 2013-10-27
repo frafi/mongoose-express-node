@@ -11,7 +11,6 @@
 
 var express = require('express')
   , fs = require('fs')
-  , passport = require('passport')
 
 /**
  * Main application entry file.
@@ -33,15 +32,12 @@ fs.readdirSync(models_path).forEach(function (file) {
   if (~file.indexOf('.js')) require(models_path + '/' + file)
 })
 
-// bootstrap passport config
-require('./config/passport')(passport, config)
-
 var app = express()
 // express settings
-require('./config/express')(app, config, passport)
+require('./config/express')(app, config)
 
 // Bootstrap routes
-require('./config/routes')(app, passport)
+require('./config/routes')(app)
 
 // Start the app by listening on <port>
 var port = process.env.PORT || 3000
