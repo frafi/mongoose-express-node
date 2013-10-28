@@ -60,7 +60,6 @@ exports.index = function(req, res){
 exports.show = function(req, res){
   res.render('titles/show', {
     title: req.title
-    //,title: req.title
   })
 }
 

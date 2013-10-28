@@ -31,9 +31,9 @@ block main
             - else
               =title.Genres[j]
     - else
-      "N/A"
+      ="N/A"
     
-    h3 Other Names  
+    h4 Other Names  
     - if (title.OtherNames.length > 0)
       table(border=1, style="width: 100%")
         tr
@@ -46,9 +46,9 @@ block main
             td=other_name.TitleNameLanguage
             td=other_name.TitleNameType
     - else
-      "N/A"
-
-    h3 Ratings
+      ="N/A"
+    br
+    h4 Ratings
     - if (title.Ratings.length > 0)
       table(border=0, style="width: 100%")
         - each rating in title.Ratings
@@ -65,12 +65,12 @@ block main
                 - else
                   =rating.RatingDescriptors[j].Rating
     - else
-      "N/A"
+      ="N/A"
 
     table(border=0, style="width: 100%")
       tr
         td(style="valign: top;")
-          h3 Storylines
+          h4 Storylines
           - if (title.Storylines.length > 0)
             table(border=1)
               tr
@@ -83,5 +83,74 @@ block main
                   td=story_line.Language
                   td=story_line.Type
           - else
-            "N/A"
-        
+            ="N/A"
+            
+    h4 Participants  
+    - if (title.Participants.length > 0)
+      table(border=1, style="width: 100%")
+        tr
+          th Id
+          th Name
+          th Role
+          th Type
+          th Is Key?
+          th On Screen?
+        - each actor in title.Participants
+          tr
+            td=actor.ParticipantId
+            td=actor.Name
+            td=actor.RoleType
+            td=actor.ParticipantType
+            td=actor.IsKey=="true" ? "Yes" : "No"
+            td=actor.IsOnScreen=="true" ? "Yes" : "No"
+    - else
+      ="N/A"
+
+    h4 Awards
+    - if (title.Awards.length > 0)
+      table(border=1, style="width: 100%")
+        tr
+          th Award Won
+          th Year
+          th Participants
+          th Award
+          th Award Company
+        - each awardwinner in title.Awards
+          tr
+            td=awardwinner.AwardWon=="true" ? "Yes" : "No"
+            td=awardwinner.AwardYear
+            td
+              - if (awardwinner.Participants.length > 0)
+                - for(j=0; j<awardwinner.Participants.length; j++)
+                  - if (j != awardwinner.Participants.length-1)
+                    =awardwinner.Participants[j]+', '
+                  - else
+                    =awardwinner.Participants[j]
+              - else
+                ="N/A"
+            td=awardwinner.Award
+            td=awardwinner.AwardCompany
+    - else
+      ="N/A"
+
+    h4 Network Levels
+    - if (title.NetworkLevels.length > 0)
+      table(border=0, style="width: 100%")
+        tr
+          td
+          - for(j=0; j < title.NetworkLevels.length; j++)
+            - if (j != (title.NetworkLevels.length-1))
+              =title.NetworkLevels[j]+', '
+            - else
+              =title.NetworkLevels[j]
+    - else
+      ="N/A"
+
+    h4 External Sources
+    - if (title.ExternalSources.length > 0)
+      ol
+       - each source in title.ExternalSources
+         li= source.Name
+    - else
+      ="N/A"
+      
