@@ -5,8 +5,7 @@
 
 var mongoose = require('mongoose')
   , async = require('async')
-  , Article = mongoose.model('Article')
-  , User = mongoose.model('User')
+  , Title = mongoose.model('Title')
 
 /**
  * Clear database
@@ -18,10 +17,7 @@ var mongoose = require('mongoose')
 exports.clearDb = function (done) {
   async.parallel([
     function (cb) {
-      User.collection.remove(cb)
-    },
-    function (cb) {
-      Article.collection.remove(cb)
+      Title.collection.remove(cb)
     }
   ], done)
 }
