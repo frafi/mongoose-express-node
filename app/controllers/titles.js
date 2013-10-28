@@ -13,17 +13,9 @@ var mongoose = require('mongoose')
  */
 
 exports.load = function(req, res, next, id){
-  //var User = mongoose.model('Title')
-
   Title.load(id, function (err, title) {
-    if (err) {
-    	console.log("error in load")
-    	return next(err)
-    }
-    if (!title) {
-    	console.log("error in title search")
-    	return next(new Error('not found item'))
-    }
+    if (err) return next(err)
+    if (!title) return next(new Error('not found item'))
     req.title = title
     next()
   })
@@ -33,14 +25,21 @@ exports.load = function(req, res, next, id){
  * List
  */
 
-exports.index = function(req, res){
+exports.index = function(req, res){ 
+  var regExpSearch = /./
+  if (req.param('title') != 'undefined' && req.param('title') != '') {
+  	regExpSearch = new RegExp(req.param('title'), "i")
+  }
+  var searchTitle = (req.param('title') != 'undefined' && req.param('title') != '') ? '/'+req.param('title')+'/i' : ''
   var page = (req.param('page') > 0 ? req.param('page') : 1) - 1
   var perPage = 30
   var options = {
     perPage: perPage,
-    page: page
+    page: page,
+    criteria: {
+    	TitleNameSortable: regExpSearch
+    }
   }
-
   Title.list(options, function(err, titles) {
     if (err) return res.render('500')
     Title.count().exec(function (err, count) {

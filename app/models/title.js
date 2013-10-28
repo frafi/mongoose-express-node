@@ -7,7 +7,8 @@ var mongoose = require('mongoose')
   , env = process.env.NODE_ENV || 'development'
   , config = require('../../config/config')[env]
   , Schema = mongoose.Schema
- 
+  , ObjectId = mongoose.Types.ObjectId
+
 /**
  * Getters
  */
@@ -31,11 +32,50 @@ var setTags = function (tags) {
 var TitleSchema = new Schema({
   TitleId: {type : Number },
   TitleName: {type : String, default : '', trim : true},
+  TitleNameSortable: {type : String, default : '', trim : true},
   TitleType: {type : String, default : '', trim : true},
   TitleTypeCode: {type : String, default : '', trim : true},
   ReleaseYear: {type : Number},
-  TitleTypeCode: {type : String, default : '', trim : true}
+  TitleTypeCode: {type : String, default : '', trim : true},
+  PerformanceMode: {type : String, default : '', trim : true},
+  AnimationMode: {type : String, default : '', trim : true},
+  Genres: [ {type: String} ],
+  Ratings: [ {
+    RatingDescriptors: [{ Rating: {type: String} }],
+  	RatingSystem: {type: String} 
+  }],
+  OtherNames: [{
+  	TitleNameLanguage: {type: String},
+  	TitleNameType: {type: String},
+  	TitleName: {type: String}	
+  }],
+  Storylines: [{
+  	Description: {type:String},
+  	Language: {type: String},
+  	Type: {type:String}
+  }],
+  Participants: [{
+  	RoleType: {type: String},
+  	IsOnScreen: {type: Boolean},
+  	IsKey: {type: Boolean},
+  	ParticipantType: {type: String},
+  	Name: {type: String},
+  	ParticipantId: {type: Number}
+  }],
+  Awards : [{
+  	AwardWon: {type: Boolean},
+  	AwardYear: {type: Number},
+  	Participants: [{type:String}],
+  	Award: {type: String},
+  	AwardCompany: {type: String}
+  }],
+  NetworkLevels: [{type:String}],
+  ExternalSources: [{
+  	Key: {type: Number},
+  	Name: {type: String}
+  }]
 })
+
 
 /**
  * Methods
@@ -58,9 +98,8 @@ TitleSchema.statics = {
    * @api private
    */
 
-  load: function (tid, cb) {
-  	console.log("Search id is "+ tid)
-  	this.findOne({ "_id" : "\""+tid+"\"" })
+  load: function (id, cb) {
+   	  this.findOne({ TitleId : id} )
       .exec(cb)
   },
 
@@ -76,7 +115,7 @@ TitleSchema.statics = {
     var criteria = options.criteria || {}
 
     this.find(criteria)
-      .sort({'createdAt': -1}) // sort by date
+      .sort({'TitleNameSortable': -1}) // sort by date
       .limit(options.perPage)
       .skip(options.perPage * options.page)
       .exec(cb)

@@ -1,18 +1,28 @@
 extends ../layouts/default
 
 block main
-  h1= title
+  h1 Search titles
 
 block content
+  - var action = '/titles'
+
+  .row
+    .span7
+      form.form-horizontal(method="get", action=action, enctype="multipart/form-data")
+
+        .control-group
+          label.control-label(for='title') Title
+          .controls
+            input#title.input-xlarge(type='text', name="title", value=title.TitleName, placeholder='Enter the title')
+
+        .form-actions
+          button.btn.btn-primary(type='submit') Search 
+          &nbsp;
+          a.btn(href='/titles', title="cancel") Cancel
+          
   - if (titles.length)
     - each title in titles
       .title
-        h3
-          a(href='/titles/'+title._id) #{title.TitleName}
-
-    - if (pages > 1)
-      .pagination
-        ul
-          != createPagination(pages, page)
-  - else
-    p.muted No titles.&nbsp;
+        h4
+          a(href='/titles/'+title.TitleId, title=title.TitleName) #{title.TitleName}
+          

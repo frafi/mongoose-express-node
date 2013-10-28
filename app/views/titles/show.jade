@@ -3,17 +3,85 @@ extends ../layouts/default
 block main
   h1= title.TitleName
   
-  block content
-  .row
-    .column
-      b Title ID
-    .column
-      p=title.TitleId
-    .column
-      b Release Year
-    .column
-      p=title.ReleaseYear
-    .column
-      b Type
-    .column
-      p=title.TitleType
+  content
+    table(border=1, style="width: 100%")
+      tr
+        th Title ID
+        th Type
+        th Type Code
+        th Release Year
+        th Performance Mode
+        th Animation Mode
+      tr
+        td=title.TitleId 
+        td=title.TitleType
+        td=title.TitleTypeCode 
+        td=title.ReleaseYear
+        td=title.PerformanceMode
+        td=title.AnimationMode
+
+    h4 Genres
+    - if (title.Genres.length > 0)
+      table(border=0, style="width: 100%")
+        tr
+          td
+          - for(j=0; j < title.Genres.length; j++)
+            - if (j != (title.Genres.length-1))
+              =title.Genres[j]+', '
+            - else
+              =title.Genres[j]
+    - else
+      "N/A"
+    
+    h3 Other Names  
+    - if (title.OtherNames.length > 0)
+      table(border=1, style="width: 100%")
+        tr
+          th Title
+          th Language
+          th Type
+        - each other_name in title.OtherNames
+          tr
+            td=other_name.TitleName
+            td=other_name.TitleNameLanguage
+            td=other_name.TitleNameType
+    - else
+      "N/A"
+
+    h3 Ratings
+    - if (title.Ratings.length > 0)
+      table(border=0, style="width: 100%")
+        - each rating in title.Ratings
+          tr
+            td 
+              b Ratings System: 
+              =rating.RatingSystem        
+            td 
+              b Rating Descriptors:
+            td
+              - for(j=0; j<rating.RatingDescriptors.length; j++)
+                - if (j != (rating.RatingDescriptors.length-1))
+                  =rating.RatingDescriptors[j].Rating+', '
+                - else
+                  =rating.RatingDescriptors[j].Rating
+    - else
+      "N/A"
+
+    table(border=0, style="width: 100%")
+      tr
+        td(style="valign: top;")
+          h3 Storylines
+          - if (title.Storylines.length > 0)
+            table(border=1)
+              tr
+                th Description
+                th Language
+                th Type
+              - each story_line in title.Storylines
+                tr
+                  td=story_line.Description
+                  td=story_line.Language
+                  td=story_line.Type
+          - else
+            "N/A"
+        

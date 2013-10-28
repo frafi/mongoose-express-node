@@ -15,14 +15,9 @@ var titles = require('../app/controllers/titles')
 
 module.exports = function (app) {
 
-  // article routes
+  // title routes
   app.get('/titles', titles.index)
-  //app.get('/titles/new', auth.requiresLogin, titles.new)
-  //app.post('/titles', auth.requiresLogin, titles.create)
   app.get('/titles/:id', titles.show)
-  //app.get('/titles/:id/edit', articleAuth, titles.edit)
-  //app.put('/titles/:id', articleAuth, titles.update)
-  //app.del('/titles/:id', articleAuth, titles.destroy)
 
   app.param('id', titles.load)
 
